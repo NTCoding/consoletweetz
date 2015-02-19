@@ -76,9 +76,34 @@ Plan
 2. Implement wall:
     - express following domain concept
 
+3. Hook up to the proper console
+    - print instructions at start of the application
 
-Notes
-~~~~~
-1. Document implementation and design strategy - show that I thought of alternatives
 
-2. Make notes about how ambiguous requirements were handled
+
+Ambiguous Requirements
+~~~~~~~~~~~~~~~~~~~~~~
+1. Chose to round down for the temporal notification at the end of each displayed message
+
+2. Chose not to group by weeks, months, or years on temporal messages, but it's easy to add
+
+3. Assume that when a tweeter follows another tweeter, they see messages that occurred before they began following them
+
+4. Assumed that users can begin following other users even if they have not posted a message
+
+
+
+
+Trade Offs & Design Decisions - I would be more than happy to create a revised version with these changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. No unit tests for Tweetsystems. I drove the design of the application using TDD (starting with acceptance tests). I was able to test enough of the tweetsystem's behaviour without the need for unit tests. To add unit tests I would have needed to introduce further abstractions which would increase the complexity of the code (more interfaces, indirection, tests causing refactoring friction).
+
+I tend to follow the GOOS principle of letting abstractions emerge.
+
+2. I chose to commit to the code in a broken state because:
+    - I was working from multiple machines (home, laptop, office)
+    - I thought it was document my development workflow more transparently for you to asses
+
+3. If the number of AAT tests grew I would have created a strongly-typed object to represent the response to concepts in tests more explicit. The repitition of response.split("\n") is becoming a small, but not enough so far (changing it might take the design in the wrong direction - we won't know until we get more scenarios and domain knowledge)
+
+4. Overall my approach to this example was to test a sensible amount but keep complexity low since the codebase is small and easier to understand this way
