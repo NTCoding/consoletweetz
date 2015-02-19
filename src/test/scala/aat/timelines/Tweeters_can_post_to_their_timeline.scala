@@ -5,6 +5,7 @@ import org.scalatest.MustMatchers
 import scala.util.matching.Regex
 import scala.collection.JavaConverters._
 import org.joda.time.DateTime
+import consoletweetz.DurationCalculator
 
 class Tweeters_can_post_to_their_timelines extends FreeSpec with MustMatchers {
   val system = TweetSystem()
@@ -65,10 +66,3 @@ class TweetSystem(private val durationCalculator: DurationCalculator) {
   private def timeSince(dt: DateTime) = durationCalculator.calculate(dt, DateTime.now())
 }
 
-class DurationCalculator {
-
-  def calculate(start: DateTime, end: DateTime): String = {
-    ""
-  }
-
-}
