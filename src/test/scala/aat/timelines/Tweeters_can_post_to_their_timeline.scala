@@ -16,7 +16,7 @@ class Tweeters_can_post_to_their_timelines extends FreeSpec with MustMatchers {
     val timeline = system.execute("Sandro")
     info(s"Got timeline: \n$timeline")
 
-    "Their account is created and they can see their messages on their timeline" ignore {
+    "Their account is created and they can see their messages on their timeline" in {
       val lines = timeline.split("\n")
       lines.length must equal(2)
       lines(0) must startWith("I looooooove clean code")

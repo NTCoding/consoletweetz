@@ -91,6 +91,8 @@ Ambiguous Requirements
 
 4. Assumed that users can begin following other users even if they have not posted a message
 
+5. Assumed that maximum wall size is 20 tweets with no paging
+
 
 
 
@@ -107,3 +109,18 @@ I tend to follow the GOOS principle of letting abstractions emerge.
 3. If the number of AAT tests grew I would have created a strongly-typed object to represent the response to concepts in tests more explicit. The repitition of response.split("\n") is becoming a small, but not enough so far (changing it might take the design in the wrong direction - we won't know until we get more scenarios and domain knowledge)
 
 4. Overall my approach to this example was to test a sensible amount but keep complexity low since the codebase is small and easier to understand this way
+
+5. Some of the abstractions that are likely to emerge:
+    - parsing arguments into command objects
+    - command processor for each type of event
+    - replace use of primitives in TweetSystem with strongly-typed objects (this may have been done :)
+    - response/output formatting
+
+6. Chose not to use a more expressive solution structure because there are so few classes. Would normally use:
+    - application
+    - infrastructure
+    - domain
+
+7. Could have added some tests that simulat a longer duration of time - minutes, hours, days etc (would probably abstract time so can be mocked)
+
+8. The Thread.sleeps are a bit of smeel in the AATs, but without them the messages get the exact same datetime down to the millisecond. There are other options, but they compromise the design
