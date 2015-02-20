@@ -95,4 +95,16 @@ class Tweeters_walls_show_the_tweets_of_the_tweeters_they_follow extends FreeSpe
 		}
 	}
 
+	"If a tweeter has not posted any messages or followed anyone" - {
+		val system = TweetSystem()
+
+		"When they look at their wall" - {
+			val response = system.execute("Jimmy wall")
+
+			"It will be empty" in {
+				response must equal("")
+			}
+		}
+	}
+
 }

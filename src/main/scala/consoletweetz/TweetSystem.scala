@@ -46,7 +46,7 @@ class TweetSystem(private val durationCalculator: DurationCalculator) {
   }
 
   private def showWallFor(tweeter: String) = {
-    val usersToShowOnWall = followerSubscriptions(tweeter) :+ tweeter
+    val usersToShowOnWall = followerSubscriptions.getOrElse(tweeter, Seq.empty) :+ tweeter
     val tweets = usersToShowOnWall.flatMap { username => 
       timelines.getOrElse(username, Seq.empty).map(tl => (username, tl._1, tl._2)) 
     }
