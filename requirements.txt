@@ -93,6 +93,8 @@ Ambiguous Requirements
 
 5. Assumed that maximum wall size is 20 tweets with no paging
 
+6. Assumed case sensitivity for names - e.g. nick and Nick are different users
+
 
 
 

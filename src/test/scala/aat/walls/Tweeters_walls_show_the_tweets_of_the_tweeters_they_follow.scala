@@ -20,9 +20,9 @@ class Tweeters_walls_show_the_tweets_of_the_tweeters_they_follow extends FreeSpe
 				info(response)
 				val lines = response.split("\n")
 
-				"The followee's tweets chronoligically ordered on the follower's wall" in {
-					lines(0) must startWith("Margaret -> It's a lovely sunny day (")
-					lines(1) must startWith("Margaret -> I'm going to relax on the beach all day (")
+				"The followee's tweets chronoligically ordered on the follower's wall with the most recent first" in {
+					lines(0) must startWith("Margaret -> I'm going to relax on the beach all day (")
+					lines(1) must startWith("Margaret -> It's a lovely sunny day (")
 				}
 
 				"A temporal notification showing how long ago each tweet was tweeted" in {
@@ -51,9 +51,9 @@ class Tweeters_walls_show_the_tweets_of_the_tweeters_they_follow extends FreeSpe
 				val lines = response.split("\n")
 
 				"The follower can see all of followees' tweets chronologically ordered on the follower's wall (even the tweets made before the tweeter began following)" in {
-					lines(0) must startWith("Nico -> I am going to win the world championship this year")
+					lines(0) must startWith("Nico -> My dad is bigger than yours!")
 					lines(1) must startWith("Lewis -> I'll do my talking on the track")
-					lines(2) must startWith("Nico -> My dad is bigger than yours!")
+					lines(2) must startWith("Nico -> I am going to win the world championship this year")
 				}	
 
 			}
@@ -84,10 +84,10 @@ class Tweeters_walls_show_the_tweets_of_the_tweeters_they_follow extends FreeSpe
 					val lines = response.split("\n")
 
 					"Their own tweets & the tweets of the tweeters they are following's tweets chronoligically sorted" in {
-						lines(0) must startWith("SmartDev -> I am going to buy Patterns, Practices and Principles of Domain-Driven Design")
-						lines(1) must startWith("SmartDev -> Order Placed. Yipppeeee")
-						lines(2) must startWith("James -> We are going to limit WIP so that we can finish more work")
-						lines(3) must startWith("Louise -> Can I get some ice cream")
+						lines(0) must startWith("Louise -> Can I get some ice cream")
+						lines(1) must startWith("James -> We are going to limit WIP so that we can finish more work")
+						lines(2) must startWith("SmartDev -> Order Placed. Yipppeeee")
+						lines(3) must startWith("SmartDev -> I am going to buy Patterns, Practices and Principles of Domain-Driven Design")
 					}
 
 				}

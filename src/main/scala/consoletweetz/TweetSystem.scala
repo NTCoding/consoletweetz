@@ -15,9 +15,9 @@ class TweetSystem(private val durationCalculator: DurationCalculator) {
 
   def execute(command: String): String = {
     if (command.contains("->"))
-    processTweet(command)
+      processTweet(command)
     else 
-    processNonTweet(command)
+      processNonTweet(command)
   }
 
   private def processTweet(command: String) = {
@@ -37,11 +37,11 @@ class TweetSystem(private val durationCalculator: DurationCalculator) {
   private def processNonTweet(command: String) = {
     command.split(" ").toSeq.map(_.trim) match {
       case Seq(follower, "follows", followee) =>
-      registerFollower(follower, followee)  
+        registerFollower(follower, followee)  
       case Seq(tweeter, "wall") =>
-      showWallFor(tweeter)
+        showWallFor(tweeter)
       case Seq(user) =>
-      showTimeline(user)
+       showTimeline(user)
     }
   }
 
@@ -61,7 +61,7 @@ class TweetSystem(private val durationCalculator: DurationCalculator) {
   }
 
   private def showTimeline(user: String) = {
-    timelines(user).map { 
+    timelines(user).reverse.map { 
       case (line: String, dt: DateTime) =>
       toTweetDisplay(line, dt)
     } mkString("\n")
@@ -80,8 +80,8 @@ class TweetSystem(private val durationCalculator: DurationCalculator) {
 class MostRecentFirstDateSorter extends Ordering[DateTime] {
   
   def compare(x: DateTime, y: DateTime) = {
-    if (x.isBefore(y)) -1
-    else if (y.isBefore(x)) 1
+    if (x.isBefore(y)) 1
+    else if (y.isBefore(x)) -1
     else 0
   }
 }
