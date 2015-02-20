@@ -7,6 +7,8 @@ object Application {
 
   def main(args: Array[String]) {
     printInstructionsToConsole()
+    println()
+    print(">")
     processCommandsUntilQuit(readLine())
   }
 
@@ -23,7 +25,8 @@ object Application {
 
     case anyOtherCommand =>
       val output = system.execute(anyOtherCommand)
-      println(output)
+      print(s"$output \n")
+      print(">")
       processCommandsUntilQuit(readLine())
   }
 
