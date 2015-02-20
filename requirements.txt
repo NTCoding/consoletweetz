@@ -111,10 +111,10 @@ I tend to follow the GOOS principle of letting abstractions emerge.
 4. Overall my approach to this example was to test a sensible amount but keep complexity low since the codebase is small and easier to understand this way
 
 5. Some of the abstractions that are likely to emerge:
-    - parsing arguments into command objects
-    - command processor for each type of event
+    - parsing arguments into command objects (application)
+    - command processor for each type of event (domain)
     - replace use of primitives in TweetSystem with strongly-typed objects (this may have been done :)
-    - response/output formatting
+    - response/output formatting (application)
 
 6. Chose not to use a more expressive solution structure because there are so few classes. Would normally use:
     - application
