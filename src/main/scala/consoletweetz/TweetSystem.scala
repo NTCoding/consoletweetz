@@ -9,9 +9,9 @@ object TweetSystem {
 }
 
 class TweetSystem(private val durationCalculator: DurationCalculator) {
-  private var timelines = Map[String, Seq[(String, DateTime)]]()
+  private var timelines = Seq.empty[Timeline]
   private var followerSubscriptions = Map[String, Seq[String]]()
-  private val dateSorter = new MostRecentFirstDateSorter()
+  private implicit val dateSorter = new MostRecentFirstDateSorter()
 
   def execute(command: String): String = {
     if (command.contains("->"))
@@ -23,14 +23,15 @@ class TweetSystem(private val durationCalculator: DurationCalculator) {
   private def processTweet(command: String) = {
     command.split("->").toSeq.map(_.trim) match {
       case Seq(user, message) =>
-      updateTimeline(user, message)
+        updateTimeline(user, message)
     }
   }
 
   private def updateTimeline(user: String, message: String) = {
-    val tl = timelines.getOrElse(user, Seq.empty)
+    val t = getOrCreateTimelineFor(user) 
+    val updatedTimeline = t.copy(tweets = (t.tweets :+ Tweet(message, DateTime.now())))
     // not thread safe
-    timelines =  (timelines - user).updated(user, tl :+ (message, DateTime.now()))
+    timelines = timelines.filterNot(_ == t) :+ updatedTimeline
     ""
   }
 
@@ -45,27 +46,24 @@ class TweetSystem(private val durationCalculator: DurationCalculator) {
     }
   }
 
-  private def showWallFor(tweeter: String) = {
-    val usersToShowOnWall = followerSubscriptions.getOrElse(tweeter, Seq.empty) :+ tweeter
+  private def showWallFor(username: String) = {
+    val usersToShowOnWall = followerSubscriptions.getOrElse(username, Seq.empty) :+ username
     val tweets = usersToShowOnWall.flatMap { username => 
-      timelines.getOrElse(username, Seq.empty).map(tl => (username, tl._1, tl._2)) 
+      getOrCreateTimelineFor(username).tweets.map(t => (username, t)) 
     }
-    val sorted = tweets.sortBy(_._3)(dateSorter)
-    val wallLines = sorted.map(x => toTweetDisplay(x._2, x._3, Some(x._1)))
-    wallLines.mkString("\n")
+    tweets.sortBy(_._2.posted)
+          .map(x => toTweetDisplay(x._2, Some(x._1)))
+          .mkString("\n")
   }
 
-  private def toTweetDisplay(line: String, dt: DateTime, name: Option[String] = None) = {
-    val nameDisplay = name.map(n => s"$n -> ").getOrElse("")
-    s"$nameDisplay$line (${timeSince(dt)} ago)"
+  private def getOrCreateTimelineFor(username: String) = timelines.find(_.username == username).getOrElse(Timeline(username, Seq.empty))
+
+  private def toTweetDisplay(tweet: Tweet, username: Option[String] = None) = {
+    val nameDisplay = username.map(n => s"$n -> ").getOrElse("")
+    s"$nameDisplay${tweet.message} (${timeSince(tweet.posted)} ago)"
   }
 
-  private def showTimeline(user: String) = {
-    timelines(user).reverse.map { 
-      case (line: String, dt: DateTime) =>
-      toTweetDisplay(line, dt)
-    } mkString("\n")
-  }
+  private def showTimeline(user: String) = getOrCreateTimelineFor(user).tweets.reverse.map(toTweetDisplay(_)).mkString("\n")
 
   private def timeSince(dt: DateTime) = durationCalculator.calculate(dt, DateTime.now())
 
@@ -85,3 +83,6 @@ class MostRecentFirstDateSorter extends Ordering[DateTime] {
     else 0
   }
 }
+
+case class Timeline(username: String, tweets: Seq[Tweet])
+case class Tweet(message: String, posted: DateTime)
