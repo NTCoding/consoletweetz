@@ -25,7 +25,8 @@ object Application {
 
     case anyOtherCommand =>
       val output = system.execute(anyOtherCommand)
-      print(s"$output \n")
+      print(s"$output")
+      if (output != "") print("\n")
       print(">")
       processCommandsUntilQuit(readLine())
   }
@@ -48,7 +49,6 @@ object Application {
     | 
     |     Please tweet responsibly.""".stripMargin('|').trim
     print(instructions)
-    print(">")
   }
 
   private def quitApplication() {
