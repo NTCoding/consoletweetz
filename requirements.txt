@@ -95,6 +95,8 @@ Ambiguous Requirements
 
 6. Assumed case sensitivity for names - e.g. nick and Nick are different users
 
+7. Assumed as part of the "sunny day" scenario that users will enter commands at the right time - e.g. can't view timeline before posting
+
 
 
 
